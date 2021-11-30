@@ -1,0 +1,11 @@
+<div class="container">
+
+    <div class="col-md-4 vh-100">
+        <div class="h-50" style="background-color:#ff0000; border-style: double; border-color: aquamarine;">
+            <div class=" text-black  p-3 " style=" width: 25%; height:25%; position:absolute; "  [ngStyle]='{left: 98 - card.cardNumber + "px",top: 58 - card.cardNumber + "px"}' *ngFor="let card of drawCards" >
+                <app-card  [cardInfo]="card"></app-card>
+        </div>
+        </div>
+    </div>
+
+</div>

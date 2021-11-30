@@ -1,0 +1,55 @@
+
+.bg-img-1 {
+    background: url('../../../assets/cards/1_card.png') no-repeat;
+    background-size: contain;
+    height: 100%;
+}
+
+.bg-img-1:hover {
+    background: url('../../../assets/cards/1_card_hover.png') no-repeat;
+    background-size: contain;
+    height: 100%;
+}
+
+.bg-img-2 {
+    background: url('../../../assets/cards/2_card.png') no-repeat;
+    background-size: contain;
+    height: 100%;
+}
+
+.bg-img-2:hover {
+    background: url('../../../assets/cards/2_card_hover.png') no-repeat;
+    background-size: contain;
+    height: 100%;
+}
+
+.bg-img-48 {
+    background: url('../../../assets/cards/48_card.png') no-repeat;
+    background-size: contain;
+    height: 100%;
+}
+
+.bg-img-48:hover {
+    background: url('../../../assets/cards/48_card_hover.png') no-repeat;
+    background-size: contain;
+    height: 100%;
+}
+
+.bg-img-3 {
+    background: url('../../../assets/cards/3_card.png') no-repeat;
+    background-size: contain;
+    height: 100%;
+}
+
+.bg-img-3:hover {
+    background: url('../../../assets/cards/3_card_hover.png') no-repeat;
+    background-size: contain;
+    height: 100%;
+}
+
+.bg-img-back {
+
+    background: url('../../../assets/cards/back_card.png') no-repeat;
+    background-size: contain;
+    height: 100%;
+}
