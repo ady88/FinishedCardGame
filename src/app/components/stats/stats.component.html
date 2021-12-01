@@ -1,11 +1,39 @@
-<div class="container">
+<div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+    <div class="d-flex align-items-center noselect  me-md-auto text-white text-decoration-none">
+        <span class="fs-5 d-none d-sm-inline">Game stats</span>
+    </div>
+    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+        <li class="nav-item">
+            <div class="align-middle px-0">
+                <span class="h4 p-2 noselect" data-bs-toggle="tooltip" data-bs-placement="top" title="Candies">{{candies}}</span><i class="fs-4 bi-lg bi-hypnotize" data-bs-toggle="tooltip" data-bs-placement="top" title="Candies"></i>
+            </div>
+        </li>
+        <li>
+            <div class="align-middle px-0">
+                <span class="h4 p-2 noselect" data-bs-toggle="tooltip" data-bs-placement="top" title="Cofees">{{cofees}}</span><i class="fs-4 bi-cup" data-bs-toggle="tooltip" data-bs-placement="top" title="Cofees"></i>
+            </div>
+        </li>
+        <li>
+            <div class="align-middle px-0">
+                <span class="h4 p-2 noselect" data-bs-toggle="tooltip" data-bs-placement="top" title="Sorted">{{sortedCards}}</span><i class="fs-4 bi-stack" data-bs-toggle="tooltip" data-bs-placement="top" title="Sorted"></i>
+            </div>
+        </li>
+    </ul>
+    <hr>
+    <div class=" pb-3">
+        <div class="d-flex align-items-center text-white text-decoration-none">
+            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start p-2 m-2">
+                <li class="p-2">
+                    <button class="btn btn-info" (click)="toPast()" data-bs-toggle="tooltip" data-bs-placement="top" title="Move present cards to past area">To past</button>
+                </li>
+                <li class="p-2">
+                    <button class="btn btn-info" (click)="draw3Cards()">Draw cards</button>
+                </li>
+                <li class="p-2">
+                    <button class="btn btn-info" (click)="toFutureAll()">Execute</button>
+                </li>
+            </ul>
 
-    <div class="col-md-4 vh-100">
-        <div class="h-50" style="background-color:#ff0000; border-style: double; border-color: aquamarine;">
-            <div class=" text-black  p-3 " style=" width: 25%; height:25%; position:absolute; "  [ngStyle]='{left: 98 - card.cardNumber + "px",top: 58 - card.cardNumber + "px"}' *ngFor="let card of drawCards" >
-                <app-card  [cardInfo]="card"></app-card>
-        </div>
         </div>
     </div>
-
 </div>

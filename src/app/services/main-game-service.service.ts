@@ -38,7 +38,7 @@ let cardInfo28 = new CardInfo(CardNumber.twentyEight, CardPower.start, CardNumbe
 let cardInfo29 = new CardInfo(CardNumber.twentyNine, CardPower.drawTwo, CardNumberActions.one, CardSide.Back);
 let cardInfo30 = new CardInfo(CardNumber.thirty, CardPower.takeCandy, CardNumberActions.zero, CardSide.Back);
 
-// let cardInfo48 = new CardInfo(CardNumber.fortyEight, CardPower.drinkCofee, CardNumberActions.zero, CardSide.Back);
+let cardInfo48 = new CardInfo(CardNumber.fortyEight, CardPower.drinkCofee, CardNumberActions.zero, CardSide.Back);
 
 @Injectable({
   providedIn: 'root'
@@ -46,15 +46,91 @@ let cardInfo30 = new CardInfo(CardNumber.thirty, CardPower.takeCandy, CardNumber
 export class MainGameServiceService {
   public drawCards: Array<CardInfo>;
   public presentCards: Array<CardInfo>;
+  public pastCards: Array<CardInfo>;
+  public futureCards: Array<Array<CardInfo>>;
+  public candies: number;
+  public cofees: number;
+  public sortedCards: number;
+
   constructor() {
     this.drawCards = [cardInfo1, cardInfo2, cardInfo3, cardInfo4, cardInfo5, cardInfo6, cardInfo7, cardInfo8, cardInfo9, cardInfo10,
-       cardInfo11, cardInfo12, cardInfo13, cardInfo14, cardInfo15, cardInfo16, cardInfo17, cardInfo18, cardInfo19, cardInfo20,
-       cardInfo21, cardInfo22, cardInfo23, cardInfo24, cardInfo25,cardInfo26, cardInfo27, cardInfo28, cardInfo29, cardInfo30];
+      cardInfo11, cardInfo12, cardInfo13, cardInfo14, cardInfo15, cardInfo16, cardInfo17, cardInfo18, cardInfo19, cardInfo20,
+      cardInfo21, cardInfo22, cardInfo23, cardInfo24, cardInfo25, cardInfo26, cardInfo27, cardInfo28, cardInfo29, cardInfo30];
+    
+    this.shuffle(this.drawCards) ;
+    this.drawCards.push(cardInfo48);
     this.presentCards = [];
+    this.pastCards=[];
+    this.futureCards = [[]];
+    this.candies = 10;
+    this.cofees = 7;
+    this.sortedCards = 0;
+  }
+
+  draw3Cards() {
+    this.presentCards.push(this.drawCards.shift() as CardInfo);
+    this.presentCards.push(this.drawCards.shift() as CardInfo);
+    this.presentCards.push(this.drawCards.shift() as CardInfo);
+  }
+
+  toPast() {
+    while (this.presentCards.length > 0) {
+      this.pastCards.push(this.presentCards.shift() as CardInfo);
+      
+    }
+  }
+
+  toFutureAll() {
+    while (this.presentCards.length > 0) {
+      this.futureCards[0].push(this.presentCards.shift() as CardInfo);
+      
+    }
   }
 
   getDrawCards() {
     return this.drawCards.slice();
   }
+
+  getPresentCards() {
+    return this.presentCards;
+  }
+
+  getPastCards() {
+  return this.pastCards;   
+  }
+
+  getFutureCards() {
+    return this.futureCards.slice();
+  }
+
+  getCandies() {
+    return this.candies;
+  }
+
+  getCofees() {
+    return this.cofees;
+  }
+  getSortedCards() {
+    return this.sortedCards;
+  }
+
+ shuffle(array: Array<CardInfo>) {
+    let currentIndex = array.length,  randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+  }
+
 
 }

@@ -53,3 +53,13 @@
     background-size: contain;
     height: 100%;
 }
+
+#cardWrapper {
+    border: none;
+}
+
+#cardWrapper:hover {
+   
+    outline: 3px solid peru;
+    outline-offset: -3px;
+}

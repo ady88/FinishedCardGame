@@ -1,21 +1,20 @@
 <div class="container-fluid">
-    <div class="row  px-2">
-        <div class="col-md-4 ">
-            <!-- <div class="d-flex align-items-center vh-100" style="background-color:#ff0000;">
-                <button class="w-100 m-5 btn btn-primary">Draw Card</button>
-                
-            </div> -->
+
+    <!-- <div class="col-md-4 ">
+            
             <div class=" align-items-center" style="background-color:#ff0000;">
                 <app-stats></app-stats>
                 
             </div>
+        </div> -->
+    <div class="row flex-nowrap">
+        <app-stats class="col-auto col-md-1 col-xl-1 px-sm-1 px-0 bg-dark"></app-stats>
+        <div class="col-md-11 py-3">
+            <app-futures></app-futures>
+            <app-present class="bg-success horizontal"></app-present>
+            <app-past class="bg-success horizontal"></app-past>
         </div>
-
-        <div class="col-md-8 bg-danger">
-           <app-futures></app-futures>
-            <app-present class="bg-success horizontal h-50 w-100"></app-present>
-            <app-past></app-past>
-        </div>
-        
     </div>
+
+
 </div>

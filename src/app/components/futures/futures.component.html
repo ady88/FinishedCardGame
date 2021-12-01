@@ -1,15 +1,10 @@
+<div class=" horizontal bg-warning text-black  p-3"  *ngFor="let cards of drawCards" >
+    <div class=" bg-warning text-black  p-3"  *ngFor="let card of cards" >
+        <app-card [cardInfo]="card" [cardSize]="cardSize"></app-card>
 
- <div class="bg-warning text-black vh-25 h-25">
-    <h5>Future Area</h5>
-    <div class="overflow-scroll text-nowrap">
-        <button class="m-1">test 1</button>
-        <button class="m-1">test 2</button>
-        <button class="m-1">test 3</button>
-
-    </div>
+    </div>    
 </div>
-            <!-- <app-metric class="col-sm-6" [used]="cpu.used" [available]="cpu.available">
+<!-- <app-metric class="col-sm-6" [used]="cpu.used" [available]="cpu.available">
                 <metric-title>CPU</metric-title>
                 <metric-description>utilization of CPU cores</metric-description>
             </app-metric> -->
-

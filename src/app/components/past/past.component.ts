@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CardInfo } from 'src/app/model/CardInfo';
+import { MainGameServiceService } from 'src/app/services/main-game-service.service';
 
 @Component({
   selector: 'app-past',
@@ -7,7 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PastComponent implements OnInit {
 
-  constructor() { }
+  pastCards: Array<CardInfo>;
+  cardSize: string = "medium";
+  constructor(private service: MainGameServiceService) {
+    this.pastCards = service.getPastCards();
+    console.log(this.pastCards);
+  }
 
   ngOnInit(): void {
   }

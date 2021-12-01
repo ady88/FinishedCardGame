@@ -8,10 +8,11 @@ import { MainGameServiceService as MainGameServiceService } from '../../services
   styleUrls: ['./present.component.css']
 })
 export class PresentComponent implements OnInit {
-  drawCards: Array<CardInfo>;
+  presentCards: Array<CardInfo>;
+  cardSize: string = "normal";
   constructor(private service: MainGameServiceService) {
-    this.drawCards = service.getDrawCards();
-    console.log(this.drawCards);
+    this.presentCards = service.getPresentCards();
+    console.log(this.presentCards);
   }
 
   ngOnInit(): void {
