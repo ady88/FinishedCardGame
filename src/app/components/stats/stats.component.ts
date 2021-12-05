@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CardInfo } from 'src/app/model/CardInfo';
 import { MainGameServiceService } from 'src/app/services/main-game-service.service';
+import { faPlay, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-stats',
@@ -14,6 +15,9 @@ export class StatsComponent implements OnInit {
   cofees: number = 0;
   sortedCards: number = 0;
   gameIsStarted: boolean = false;
+  faPlay = faPlay;
+  faStopWatch = faStopwatch;
+  
   constructor(private service: MainGameServiceService) {
     this.drawCards = service.getDrawCards();
     console.log(this.drawCards);

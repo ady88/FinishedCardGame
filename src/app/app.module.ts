@@ -13,6 +13,7 @@ import { StatsComponent } from './components/stats/stats.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CardComponent } from './components/card/card.component';
 import {MainGameServiceService} from './services/main-game-service.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {MainGameServiceService} from './services/main-game-service.service';
     CommonModule,
     FormsModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FontAwesomeModule
   ],
   providers: [MainGameServiceService],
   bootstrap: [AppComponent]
