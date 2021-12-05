@@ -9,11 +9,11 @@ import { MainGameServiceService } from 'src/app/services/main-game-service.servi
 })
 export class FuturesComponent implements OnInit {
 
-  drawCards: Array<Array<CardInfo>>;
+  futureCards: Array<Array<CardInfo>>;
   cardSize: string = "small";
   constructor(private service: MainGameServiceService) {
-    this.drawCards = service.getFutureCards();
-    console.log(this.drawCards);
+    this.futureCards = service.getFutureCards();
+    console.log(this.futureCards);
   }
 
   ngOnInit(): void {

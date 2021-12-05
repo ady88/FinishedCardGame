@@ -1,3 +1,3 @@
-<div class=" bg-success text-black  p-3" style="flex-shrink: 0;"  *ngFor="let card of presentCards" >
-        <app-card [cardInfo]="card" cardSize="normal"></app-card>
+<div class=" text-black  p-3" style="flex-shrink: 0;"  *ngFor="let card of presentCards; let i = index; let presentSize = count">
+        <app-card [cardInfo]="card" cardSize="normal" [cardIndex]="i" [presentSize]="presentSize"></app-card>
 </div>

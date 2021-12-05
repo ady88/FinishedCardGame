@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CardSide } from 'src/app/model/CardSide';
-import { CardInfo as CardInfo } from '../../model/CardInfo'
+import { CardInfo as CardInfo } from '../../model/CardInfo';
+import { MainGameServiceService } from 'src/app/services/main-game-service.service';
 
 @Component({
   selector: 'app-card',
@@ -10,7 +11,14 @@ import { CardInfo as CardInfo } from '../../model/CardInfo'
 export class CardComponent implements OnInit {
   @Input() cardInfo: any;
   @Input() cardSize: string = "";
+  @Input() cardIndex: number = 0;
+  @Input() presentSize: number = 0;
   public imgUrl: string = "../../../assets/cards/back_card.png";
+  public isPlayDisabled: boolean = true;
+
+
+  constructor(private service: MainGameServiceService) {
+  }
 
   ngOnInit(): void {
     this.imgUrl = this.getImgUrl();
@@ -39,5 +47,13 @@ export class CardComponent implements OnInit {
       }
     }
     return result;
+  }
+
+  moveLeft() {
+    this.service.moveLeft(this.cardIndex);
+  }
+
+  moveRight() {
+    this.service.moveRight(this.cardIndex);
   }
 }

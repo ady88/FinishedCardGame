@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CardInfo } from 'src/app/model/CardInfo';
 import { MainGameServiceService } from 'src/app/services/main-game-service.service';
 
@@ -13,6 +13,7 @@ export class StatsComponent implements OnInit {
   candies: number = 0;
   cofees: number = 0;
   sortedCards: number = 0;
+  gameIsStarted: boolean = false;
   constructor(private service: MainGameServiceService) {
     this.drawCards = service.getDrawCards();
     console.log(this.drawCards);
@@ -23,8 +24,19 @@ export class StatsComponent implements OnInit {
     this.sortedCards = this.service.getSortedCards();
   }
 
+  @HostListener('window:updatedSortedCards-event', ['$event']) 
+  updateSortedCards(event:any) {
+    this.sortedCards = this.service.getSortedCards();
+  }
+
+  @HostListener('window:updatedCofees-event', ['$event']) 
+  updateCofees(event:any) {
+    this.cofees = this.service.getCofees();
+  }
+
   draw3Cards() {
     this.service.draw3Cards();
+    this.gameIsStarted = true;
   }
 
   toPast() {
@@ -33,6 +45,10 @@ export class StatsComponent implements OnInit {
 
   toFutureAll() {
     this.service.toFutureAll();
+  }
+
+  modelChangeFn(e:number) {
+    this.sortedCards=e;
   }
 
 }

@@ -5,17 +5,23 @@
     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
         <li class="nav-item">
             <div class="align-middle px-0">
-                <span class="h4 p-2 noselect" data-bs-toggle="tooltip" data-bs-placement="top" title="Candies">{{candies}}</span><i class="fs-4 bi-lg bi-hypnotize" data-bs-toggle="tooltip" data-bs-placement="top" title="Candies"></i>
+                <span class="h4 p-2 noselect" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Candies">{{candies}}</span><i class="fs-4 bi-lg bi-hypnotize" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Candies"></i>
             </div>
         </li>
         <li>
             <div class="align-middle px-0">
-                <span class="h4 p-2 noselect" data-bs-toggle="tooltip" data-bs-placement="top" title="Cofees">{{cofees}}</span><i class="fs-4 bi-cup" data-bs-toggle="tooltip" data-bs-placement="top" title="Cofees"></i>
+                <span class="h4 p-2 noselect" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Cofees">{{cofees}}</span><i class="fs-4 bi-cup" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Cofees"></i>
             </div>
         </li>
         <li>
             <div class="align-middle px-0">
-                <span class="h4 p-2 noselect" data-bs-toggle="tooltip" data-bs-placement="top" title="Sorted">{{sortedCards}}</span><i class="fs-4 bi-stack" data-bs-toggle="tooltip" data-bs-placement="top" title="Sorted"></i>
+                <span class="h4 p-2 noselect" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Sorted">{{sortedCards}}</span><i class="fs-4 bi-stack" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Sorted"></i>
             </div>
         </li>
     </ul>
@@ -24,13 +30,12 @@
         <div class="d-flex align-items-center text-white text-decoration-none">
             <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start p-2 m-2">
                 <li class="p-2">
-                    <button class="btn btn-info" (click)="toPast()" data-bs-toggle="tooltip" data-bs-placement="top" title="Move present cards to past area">To past</button>
+                    <button [ngClass]="{'d-none': gameIsStarted == false}" class="btn btn-info bi-stopwatch" (click)="toPast()" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Move present cards to past area"></button>
                 </li>
                 <li class="p-2">
-                    <button class="btn btn-info" (click)="draw3Cards()">Draw cards</button>
-                </li>
-                <li class="p-2">
-                    <button class="btn btn-info" (click)="toFutureAll()">Execute</button>
+                    <button [ngClass]="{'d-none': gameIsStarted == true}" class="btn btn-info bi-play"
+                        (click)="draw3Cards()"></button>
                 </li>
             </ul>
 

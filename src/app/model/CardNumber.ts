@@ -30,8 +30,22 @@ export enum CardNumber {
     twentyEight=28,
     twentyNine=29,
     thirty=30,
-
-
-
+    thirtyOne=31,
+    thirtyTwo=32,
+    thirtyThree=33,
+    thirtyFour=34,
+    thirtyFive=35,
+    thirtySix=36,
+    thirtySeven=37,
+    thirtyEight=38,
+    thirtyNine=39,
+    forty=40,
+    fortyOne=41,
+    fortyTwo=42,
+    fortyThree=43,
+    fortyFour=44,
+    fortyFive=45,
+    fortySix=46,
+    fortySeven=47,
     fortyEight=48
 }
