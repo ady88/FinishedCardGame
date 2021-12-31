@@ -6,7 +6,7 @@
     <img data-bs-toggle="tooltip" data-bs-placement="top" title={{cardInfo.cardNumber}} style="border-radius: 10%;" [src]="imgUrl" />
     <div class="vertical" [ngClass]="{'d-none': cardSize != 'normal'}">
         <button class="btn btn-primary bi-arrow-left-circle" (click)="moveLeft()" [disabled]="cardIndex == 0"></button>
-        <button class="btn btn-primary bi-play "></button>
+        <button class="btn btn-primary bi-play" (click)="executeAction()" [disabled]="cardInfo.cardAvailableActions == 0 || remainingCandies == 0"></button>
         <button class="btn btn-primary bi-arrow-right-circle" (click)="moveRight()"  [disabled]="cardIndex == presentSize - 1"></button>
     </div>
 </div>

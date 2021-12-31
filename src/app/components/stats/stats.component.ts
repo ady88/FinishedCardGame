@@ -38,6 +38,12 @@ export class StatsComponent implements OnInit {
     this.cofees = this.service.getCofees();
   }
 
+  @HostListener('window:updateCandies-event', ['$event']) 
+  updateCandies(event:any) {
+    console.log("ADRIAN from event");
+    this.candies = this.service.getCandies();
+  }
+
   draw3Cards() {
     this.service.draw3Cards();
     this.gameIsStarted = true;

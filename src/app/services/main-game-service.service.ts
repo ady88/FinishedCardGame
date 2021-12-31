@@ -1,6 +1,6 @@
+import { BoundTextAst } from '@angular/compiler';
 import { Injectable } from '@angular/core';
-import { throttle } from 'rxjs';
-import { debounce, delay, throttleAsync } from 'utils-decorators';
+import { max } from 'rxjs';
 import { CardInfo as CardInfo } from '../model/CardInfo'
 import { CardNumber } from '../model/CardNumber';
 import { CardNumberActions } from '../model/CardNumberActions';
@@ -11,54 +11,55 @@ import { CardSide } from '../model/CardSide';
 let cardInfo1 = new CardInfo(CardNumber.one, CardPower.start, CardNumberActions.zero, CardSide.Front);
 let cardInfo2 = new CardInfo(CardNumber.two, CardPower.drawTwo, CardNumberActions.one, CardSide.Front);
 let cardInfo3 = new CardInfo(CardNumber.three, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo4 = new CardInfo(CardNumber.four, CardPower.start, CardNumberActions.zero, CardSide.Front);
-let cardInfo5 = new CardInfo(CardNumber.five, CardPower.drawTwo, CardNumberActions.one, CardSide.Front);
+let cardInfo4 = new CardInfo(CardNumber.four, CardPower.belowTheStack, CardNumberActions.one, CardSide.Front);
+let cardInfo5 = new CardInfo(CardNumber.five, CardPower.cardsIntoPast, CardNumberActions.one, CardSide.Front);
 let cardInfo6 = new CardInfo(CardNumber.six, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo7 = new CardInfo(CardNumber.seven, CardPower.start, CardNumberActions.zero, CardSide.Front);
-let cardInfo8 = new CardInfo(CardNumber.eight, CardPower.drawTwo, CardNumberActions.one, CardSide.Front);
-let cardInfo9 = new CardInfo(CardNumber.nine, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo10 = new CardInfo(CardNumber.ten, CardPower.start, CardNumberActions.zero, CardSide.Front);
-let cardInfo11 = new CardInfo(CardNumber.eleven, CardPower.drawTwo, CardNumberActions.one, CardSide.Front);
-let cardInfo12 = new CardInfo(CardNumber.twelve, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo13 = new CardInfo(CardNumber.thirdteen, CardPower.start, CardNumberActions.zero, CardSide.Front);
-let cardInfo14 = new CardInfo(CardNumber.fourthteen, CardPower.drawTwo, CardNumberActions.one, CardSide.Front);
+let cardInfo7 = new CardInfo(CardNumber.seven, CardPower.belowTheStack, CardNumberActions.one, CardSide.Front);
+let cardInfo8 = new CardInfo(CardNumber.eight, CardPower.cardsFromPast, CardNumberActions.one, CardSide.Front);
+let cardInfo9 = new CardInfo(CardNumber.nine, CardPower.drawOne, CardNumberActions.one, CardSide.Front);
+let cardInfo10 = new CardInfo(CardNumber.ten, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
+let cardInfo11 = new CardInfo(CardNumber.eleven, CardPower.cardsIntoPast, CardNumberActions.one, CardSide.Front);
+let cardInfo12 = new CardInfo(CardNumber.twelve, CardPower.cardIntoFuture, CardNumberActions.one, CardSide.Front);
+let cardInfo13 = new CardInfo(CardNumber.thirdteen, CardPower.exchangeCard, CardNumberActions.one, CardSide.Front);
+let cardInfo14 = new CardInfo(CardNumber.fourthteen, CardPower.drawOne, CardNumberActions.one, CardSide.Front);
 let cardInfo15 = new CardInfo(CardNumber.fifthteen, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
 
-let cardInfo16 = new CardInfo(CardNumber.sixthteen, CardPower.start, CardNumberActions.zero, CardSide.Front);
-let cardInfo17 = new CardInfo(CardNumber.seventeen, CardPower.drawTwo, CardNumberActions.one, CardSide.Front);
-let cardInfo18 = new CardInfo(CardNumber.eightteen, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo19 = new CardInfo(CardNumber.nineteen, CardPower.start, CardNumberActions.zero, CardSide.Front);
-let cardInfo20 = new CardInfo(CardNumber.twenty, CardPower.drawTwo, CardNumberActions.one, CardSide.Front);
+let cardInfo16 = new CardInfo(CardNumber.sixthteen, CardPower.allCardsIntoFuture, CardNumberActions.one, CardSide.Front);
+let cardInfo17 = new CardInfo(CardNumber.seventeen, CardPower.cardsIntoPast, CardNumberActions.one, CardSide.Front);
+let cardInfo18 = new CardInfo(CardNumber.eightteen, CardPower.cardsFromPast, CardNumberActions.one, CardSide.Front);
+let cardInfo19 = new CardInfo(CardNumber.nineteen, CardPower.cardIntoFuture, CardNumberActions.one, CardSide.Front);
+let cardInfo20 = new CardInfo(CardNumber.twenty, CardPower.drawOne, CardNumberActions.one, CardSide.Front);
 let cardInfo21 = new CardInfo(CardNumber.twentyOne, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo22 = new CardInfo(CardNumber.twentyTwo, CardPower.start, CardNumberActions.zero, CardSide.Front);
-let cardInfo23 = new CardInfo(CardNumber.twentyThree, CardPower.drawTwo, CardNumberActions.one, CardSide.Front);
-let cardInfo24 = new CardInfo(CardNumber.twentyFour, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo25 = new CardInfo(CardNumber.twentyFive, CardPower.start, CardNumberActions.zero, CardSide.Front);
-let cardInfo26 = new CardInfo(CardNumber.twentySix, CardPower.drawTwo, CardNumberActions.one, CardSide.Front);
-let cardInfo27 = new CardInfo(CardNumber.twentySeven, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo28 = new CardInfo(CardNumber.twentyEight, CardPower.start, CardNumberActions.zero, CardSide.Front);
-let cardInfo29 = new CardInfo(CardNumber.twentyNine, CardPower.drawTwo, CardNumberActions.one, CardSide.Front);
-let cardInfo30 = new CardInfo(CardNumber.thirty, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo31 = new CardInfo(CardNumber.thirtyOne, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo32 = new CardInfo(CardNumber.thirtyTwo, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo33 = new CardInfo(CardNumber.thirtyThree, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo34 = new CardInfo(CardNumber.thirtyFour, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo35 = new CardInfo(CardNumber.thirtyFive, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
+let cardInfo22 = new CardInfo(CardNumber.twentyTwo, CardPower.exchangeCard, CardNumberActions.one, CardSide.Front);
+let cardInfo23 = new CardInfo(CardNumber.twentyThree, CardPower.cardsIntoPast, CardNumberActions.one, CardSide.Front);
+let cardInfo24 = new CardInfo(CardNumber.twentyFour, CardPower.allCardsIntoFuture, CardNumberActions.one, CardSide.Front);
+let cardInfo25 = new CardInfo(CardNumber.twentyFive, CardPower.cardsIntoPast, CardNumberActions.one, CardSide.Front);
+let cardInfo26 = new CardInfo(CardNumber.twentySix, CardPower.allCardsIntoFuture, CardNumberActions.one, CardSide.Front);
+let cardInfo27 = new CardInfo(CardNumber.twentySeven, CardPower.drawOne, CardNumberActions.one, CardSide.Front);
+let cardInfo28 = new CardInfo(CardNumber.twentyEight, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
+let cardInfo29 = new CardInfo(CardNumber.twentyNine, CardPower.belowTheStack, CardNumberActions.one, CardSide.Front);
+let cardInfo30 = new CardInfo(CardNumber.thirty, CardPower.cardsFromPast, CardNumberActions.one, CardSide.Front);
+let cardInfo31 = new CardInfo(CardNumber.thirtyOne, CardPower.drawOne, CardNumberActions.one, CardSide.Front);
+let cardInfo32 = new CardInfo(CardNumber.thirtyTwo, CardPower.cardIntoFuture, CardNumberActions.one, CardSide.Front);
+let cardInfo33 = new CardInfo(CardNumber.thirtyThree, CardPower.exchangeCard, CardNumberActions.one, CardSide.Front);
+let cardInfo34 = new CardInfo(CardNumber.thirtyFour, CardPower.drawOne, CardNumberActions.one, CardSide.Front);
+let cardInfo35 = new CardInfo(CardNumber.thirtyFive, CardPower.allCardsIntoFuture, CardNumberActions.one, CardSide.Front);
 let cardInfo36 = new CardInfo(CardNumber.thirtySix, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo37 = new CardInfo(CardNumber.thirtySeven, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo38 = new CardInfo(CardNumber.thirtyEight, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo39 = new CardInfo(CardNumber.thirtyNine, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo40 = new CardInfo(CardNumber.forty, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo41 = new CardInfo(CardNumber.fortyOne, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo42 = new CardInfo(CardNumber.fortyTwo, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo43 = new CardInfo(CardNumber.fortyThree, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo44 = new CardInfo(CardNumber.fortyFour, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
+let cardInfo37 = new CardInfo(CardNumber.thirtySeven, CardPower.resetCandies, CardNumberActions.one, CardSide.Front);
+let cardInfo38 = new CardInfo(CardNumber.thirtyEight, CardPower.allCardsIntoFuture, CardNumberActions.one, CardSide.Front);
+let cardInfo39 = new CardInfo(CardNumber.thirtyNine, CardPower.exchangeCard, CardNumberActions.one, CardSide.Front);
+let cardInfo40 = new CardInfo(CardNumber.forty, CardPower.cardIntoFuture, CardNumberActions.one, CardSide.Front);
+let cardInfo41 = new CardInfo(CardNumber.fortyOne, CardPower.cardsIntoPast, CardNumberActions.one, CardSide.Front);
+let cardInfo42 = new CardInfo(CardNumber.fortyTwo, CardPower.belowTheStack, CardNumberActions.one, CardSide.Front);
+let cardInfo43 = new CardInfo(CardNumber.fortyThree, CardPower.exchangeCard, CardNumberActions.one, CardSide.Front);
+let cardInfo44 = new CardInfo(CardNumber.fortyFour, CardPower.cardsFromPast, CardNumberActions.one, CardSide.Front);
 let cardInfo45 = new CardInfo(CardNumber.fortyFive, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo46 = new CardInfo(CardNumber.fortySix, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
-let cardInfo47 = new CardInfo(CardNumber.fortySeven, CardPower.takeCandy, CardNumberActions.zero, CardSide.Front);
+let cardInfo46 = new CardInfo(CardNumber.fortySix, CardPower.drawOne, CardNumberActions.one, CardSide.Front);
+let cardInfo47 = new CardInfo(CardNumber.fortySeven, CardPower.drawOne, CardNumberActions.three, CardSide.Front);
 let cardInfo48 = new CardInfo(CardNumber.fortyEight, CardPower.drinkCofee, CardNumberActions.zero, CardSide.Front);
 
-const timeout: number = 400;
+const timeout: number = 200;
+const max_candies: number = 10;
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +69,7 @@ export class MainGameServiceService {
   public presentCards: Array<CardInfo>;
   public pastCards: Array<CardInfo>;
   public futureCards: Array<Array<CardInfo>>;
+  public futureIndex: number;
   public candies: number;
   public cofees: number;
   public sortedCards: number;
@@ -84,10 +86,11 @@ export class MainGameServiceService {
     this.drawCards.push(cardInfo48);
     this.presentCards = [];
     this.pastCards = [];
-    this.futureCards = [[]];
-    this.candies = 10;
+    this.futureCards = [];
+    this.candies = 7;
     this.cofees = 7;
     this.sortedCards = 0;
+    this.futureIndex = 0;
   }
 
 
@@ -98,9 +101,32 @@ export class MainGameServiceService {
     this.checkForSortedCards();
   }
 
+  async draw2CardsPower(): Promise<void> {
+    await this.draw1Card();
+    await this.draw1Card();
+    this.checkForSortedCards();
+  }
+
+  async draw1CardPower(): Promise<void> {
+    await this.draw1Card();
+    this.checkForSortedCards();
+  }
+
 
   async draw1Card(): Promise<void> {
-    this.presentCards.push(this.drawCards.shift() as CardInfo);
+    let cardDrawn = null;
+    if (this.drawCards.length > 0) {
+      cardDrawn = this.drawCards.shift() as CardInfo;
+    } else {
+      cardDrawn = this.pastCards.shift() as CardInfo;
+    }
+    this.presentCards.push(cardDrawn);
+
+    if (cardDrawn.cardPower == CardPower.takeCandy && this.candies < max_candies) {
+      this.candies++;
+      window.dispatchEvent(new Event('updateCandies-event'));
+    }
+
     window.dispatchEvent(new Event('drawCard-event'));
     await new Promise(resolve => setTimeout(resolve, timeout));
 
@@ -123,22 +149,52 @@ export class MainGameServiceService {
       console.log(sortedCardsAux);
 
       this.presentCards.splice(index, 1);
+      await new Promise(resolve => setTimeout(resolve, timeout));
       this.addSortedCard();
 
       window.dispatchEvent(new Event('updatedSortedCards-event'));
-      if (this.drawCards.length > 0) {
+      if (this.drawCards.length > 0 || this.pastCards.length > 0) {
         await this.draw1Card();
       }
     }
   }
 
   async toPast() {
+    console.log("ADRIAN 1111");
+    let bonusCandies = Math.min(this.sequenceRuleBonus(), max_candies - this.candies);
+    console.log(bonusCandies);
+    this.candies = this.candies + bonusCandies;
+    window.dispatchEvent(new Event('updateCandies-event'));
+
     while (this.presentCards.length > 0) {
       await this.toPast1Card();
     }
+
     await this.backToDrawStack();
-    this.draw3Cards();
+    if (this.futureIndex <= 0) {
+      await this.draw3Cards();
+    } else {
+      await this.fromFutureAll();
+    }
   }
+
+  async fromFutureAll() {
+    console.log('ADRIAN 12121');
+    console.log(this);
+    console.log(this.futureCards);
+    console.log(this.futureIndex);
+    let lastFutureCards = this.futureCards[this.futureIndex - 1] as Array<CardInfo>;
+
+    while (lastFutureCards.length > 0) {
+      this.presentCards.push(lastFutureCards.shift() as CardInfo);
+      await new Promise(resolve => setTimeout(resolve, timeout));
+    }
+    this.futureCards.pop();
+    window.dispatchEvent(new Event('updateFutureCards-event'));
+    this.futureIndex--;
+  }
+
+
 
   async toPast1Card() {
     let removedCard = this.presentCards.shift() as CardInfo;
@@ -147,9 +203,11 @@ export class MainGameServiceService {
       this.cofees--;
       window.dispatchEvent(new Event('updatedCofees-event'));
     }
-
+    removedCard.cardAvailableActions = removedCard.cardNumberActions;
     await new Promise(resolve => setTimeout(resolve, timeout));
   }
+
+
 
   async backToDrawStack() {
     while (this.pastCards.length > 3) {
@@ -158,21 +216,52 @@ export class MainGameServiceService {
     }
   }
 
+  async belowTheDrawStack() {
+    while (this.presentCards.length > 0) {
+      let removedCard = this.presentCards.shift() as CardInfo;
+      this.drawCards.push(removedCard);
+      removedCard.cardAvailableActions = removedCard.cardNumberActions;
+      await new Promise(resolve => setTimeout(resolve, timeout));
+    }
+    this.draw3Cards();
+  }
+
+  async getLast2FromPast() {
+    await this.getLastFromPast();
+    await this.getLastFromPast();
+    this.checkForSortedCards();
+  }
+
+  async getLastFromPast() {
+    if (this.pastCards.length <= 0) {
+      return;
+    }
+
+    let removedCard = this.pastCards.pop() as CardInfo;
+    this.presentCards.push(removedCard);
+    await new Promise(resolve => setTimeout(resolve, timeout));
+  }
+
   addSortedCard() {
     this.sortedCards++;
   }
 
 
 
-  toFutureAll() {
-    let i = 0;
-    while (this.futureCards[i].length > 0) {
-      i++;
-    }
+  async toFutureAll() {
+    this.futureCards.push([]);
+    window.dispatchEvent(new Event('updateFutureCards-event'));
     while (this.presentCards.length > 0) {
-      this.futureCards[i].push(this.presentCards.shift() as CardInfo);
-
+      this.futureCards[this.futureIndex].push(this.presentCards.shift() as CardInfo);
+      await new Promise(resolve => setTimeout(resolve, timeout));
     }
+
+    this.futureIndex++;
+    await this.draw3Cards();
+  }
+
+  toFuture1Card() {
+
   }
 
   getDrawCards() {
@@ -201,6 +290,14 @@ export class MainGameServiceService {
 
   getCandies() {
     return this.candies;
+  }
+
+  consumeCandy() {
+    if (this.candies == 0) {
+      return;
+    }
+    this.candies--;
+    window.dispatchEvent(new Event('updateCandies-event'));
   }
 
   getCofees() {
@@ -238,6 +335,87 @@ export class MainGameServiceService {
     let aux = this.presentCards[cardIndex];
     this.presentCards[cardIndex] = this.presentCards[cardIndex + 1];
     this.presentCards[cardIndex + 1] = aux;
+  }
+
+  sequenceRuleBonus(): number {
+    let currentIndex = 0;
+    let bonus = 0;
+    while (currentIndex <= this.presentCards.length - 3) {
+      let foundSequence = false;
+      while (currentIndex <= (this.presentCards.length - 3) && this.presentCards[currentIndex + 2].cardNumber == (this.presentCards[currentIndex + 1].cardNumber + 1) && this.presentCards[currentIndex + 2].cardNumber == (this.presentCards[currentIndex].cardNumber + 2)) {
+        bonus += 1;
+        console.log("ADRIAN 2222")
+        foundSequence = true;
+        currentIndex++;
+      }
+
+      if (foundSequence) {
+        bonus += 1;
+      }
+
+      currentIndex++;
+    }
+    return bonus;
+  }
+
+  resetCandies() {
+    for (let i = 0; i < this.presentCards.length; i++) {
+      if (this.presentCards[i].cardNumber == CardNumber.thirtySeven) {
+        continue;
+      }
+
+      this.presentCards[i].cardAvailableActions = this.presentCards[i].cardNumberActions;
+
+    }
+    window.dispatchEvent(new Event('updateCardImage-event'));
+
+    for (let i = 0; i < this.futureCards.length; i++) {
+      for (let j = 0; j < this.futureCards[i].length; j++) {
+        this.futureCards[i][j].cardAvailableActions = this.futureCards[i][j].cardNumberActions;
+      }
+    }
+
+
+    window.dispatchEvent(new Event('updateFutureCards-event'));
+    window.dispatchEvent(new Event('updateCardImage-event'));
+  }
+
+  getImgUrl(cardInfo: CardInfo, cardSize: string) {
+    let result = "";
+    let c = cardInfo as CardInfo;
+    if (cardSize == "normal") {
+      if (cardInfo.cardSide == CardSide.Front) {
+        if (c.cardAvailableActions == c.cardNumberActions) {
+          result = "../../../assets/cards/" + cardInfo.cardNumber + "_card.png";
+        } else if (c.cardNumber == CardNumber.fortySeven) {
+          result = "../../../assets/cards/" + cardInfo.cardNumber + "_cardc_"+ (c.cardNumberActions - c.cardAvailableActions)+".png";
+        } else {
+          result = "../../../assets/cards/" + cardInfo.cardNumber + "_cardc.png";
+        } 
+      } else {
+        result = "../../../assets/cards/back_card.png";
+      }
+    } else if (cardSize == "medium") {
+      if (cardInfo.cardSide == CardSide.Front) {
+        result = "../../../assets/cards/" + cardInfo.cardNumber + "_card_medium.png";
+      } else {
+        result = "../../../assets/cards/back_card_medium.png";
+      }
+    } else {
+      if (cardInfo.cardSide == CardSide.Front) {
+        if (c.cardAvailableActions == c.cardNumberActions) {
+          result = "../../../assets/cards/" + cardInfo.cardNumber + "_card_small.png";
+        } else if (c.cardNumber == CardNumber.fortySeven) {
+          result = "../../../assets/cards/" + cardInfo.cardNumber + "_cardc_"+ (c.cardNumberActions - c.cardAvailableActions)+"_small.png";
+        } else {
+          result = "../../../assets/cards/" + cardInfo.cardNumber + "_cardc_small.png";
+        } 
+
+      } else {
+        result = "../../../assets/cards/back_card_small.png";
+      }
+    }
+    return result;
   }
 
 }

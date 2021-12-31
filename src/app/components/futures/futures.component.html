@@ -1,4 +1,4 @@
-<div class=" horizontal  text-black  p-3"  *ngFor="let cards of futureCards.reverse()" >
+<div class=" horizontal justify-content-center  text-black  p-3"  *ngFor="let cards of futureCards" >
     <div class=" text-black  p-3"  *ngFor="let card of cards" >
         <app-card [cardInfo]="card" [cardSize]="cardSize"></app-card>
 

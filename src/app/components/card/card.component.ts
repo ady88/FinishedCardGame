@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { CardSide } from 'src/app/model/CardSide';
 import { CardInfo as CardInfo } from '../../model/CardInfo';
 import { MainGameServiceService } from 'src/app/services/main-game-service.service';
+import { CardPower } from 'src/app/model/CardPower';
+import { CardNumber } from 'src/app/model/CardNumber';
 
 @Component({
   selector: 'app-card',
@@ -13,6 +15,8 @@ export class CardComponent implements OnInit {
   @Input() cardSize: string = "";
   @Input() cardIndex: number = 0;
   @Input() presentSize: number = 0;
+  @Input() remainingCandies: number = 0;
+  
   public imgUrl: string = "../../../assets/cards/back_card.png";
   public isPlayDisabled: boolean = true;
 
@@ -21,33 +25,10 @@ export class CardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.imgUrl = this.getImgUrl();
+    this.imgUrl = this.service.getImgUrl(this.cardInfo, this.cardSize);
     console.log(this.imgUrl);
   }
-  getImgUrl() {
-    let result = "";
-
-    if (this.cardSize == "normal") {
-      if (this.cardInfo.cardSide == CardSide.Front) {
-        result = "../../../assets/cards/" + this.cardInfo.cardNumber + "_card.png";
-      } else {
-        result = "../../../assets/cards/back_card.png";
-      }
-    } else if (this.cardSize == "medium") {
-      if (this.cardInfo.cardSide == CardSide.Front) {
-        result = "../../../assets/cards/" + this.cardInfo.cardNumber + "_card_medium.png";
-      } else {
-        result = "../../../assets/cards/back_card_medium.png";
-      }
-    } else {
-      if (this.cardInfo.cardSide == CardSide.Front) {
-        result = "../../../assets/cards/" + this.cardInfo.cardNumber + "_card_small.png";
-      } else {
-        result = "../../../assets/cards/back_card_small.png";
-      }
-    }
-    return result;
-  }
+  
 
   moveLeft() {
     this.service.moveLeft(this.cardIndex);
@@ -55,5 +36,48 @@ export class CardComponent implements OnInit {
 
   moveRight() {
     this.service.moveRight(this.cardIndex);
+  }
+
+  executeAction() {
+    if (this.service.getCandies() <= 0) {
+      return;
+    }
+    let currentCard = this.cardInfo as CardInfo;
+    
+    if (this.cardInfo.cardNumber == 47) {
+      this.imgUrl = "../../../assets/cards/" + this.cardInfo.cardNumber + "_cardc_" + (currentCard.cardNumberActions - (currentCard.cardAvailableActions - 1)) + ".png";  
+    } else {
+      this.imgUrl = "../../../assets/cards/" + this.cardInfo.cardNumber + "_cardc.png";
+    }
+    this.cardInfo.cardAvailableActions--;
+    this.service.consumeCandy();
+
+    switch (currentCard.cardPower) {
+      case CardPower.drawOne:
+        this.service.draw1CardPower();
+        break;
+      case CardPower.drawTwo:
+        this.service.draw2CardsPower();
+        break;
+      case CardPower.cardsFromPast:
+        this.service.getLast2FromPast();
+        break;
+      case CardPower.belowTheStack:
+        this.service.belowTheDrawStack();
+        break;
+      case CardPower.allCardsIntoFuture:
+        this.service.toFutureAll();
+        break;
+      case CardPower.resetCandies:
+        this.service.resetCandies();
+        break;
+      default:
+        console.log("something went wrong, no card available with the mentioned power.");
+    }
+  }
+
+  @HostListener('window:updateCardImage-event', ['$event'])
+  updateCandies(event: any) {
+    this.imgUrl = this.service.getImgUrl(this.cardInfo, this.cardSize);
   }
 }

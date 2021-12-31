@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CardInfo } from 'src/app/model/CardInfo';
 import { MainGameServiceService } from 'src/app/services/main-game-service.service';
 
@@ -17,6 +17,11 @@ export class FuturesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  @HostListener('window:updateFutureCards-event', ['$event'])
+  updateNodes(event: any) {
+    this.futureCards = this.service.getFutureCards();
   }
 
 }
