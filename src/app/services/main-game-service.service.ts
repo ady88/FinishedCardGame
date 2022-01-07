@@ -70,6 +70,7 @@ export class MainGameServiceService {
   public pastCards: Array<CardInfo>;
   public futureCards: Array<Array<CardInfo>>;
   public futureIndex: number;
+  public exchangeCardInProgress: boolean;
   public candies: number;
   public cofees: number;
   public sortedCards: number;
@@ -91,6 +92,7 @@ export class MainGameServiceService {
     this.cofees = 7;
     this.sortedCards = 0;
     this.futureIndex = 0;
+    this.exchangeCardInProgress = false;
   }
 
 
@@ -159,6 +161,18 @@ export class MainGameServiceService {
     }
   }
 
+  async toPast2Cards() {
+    await this.toPast1Card();
+    await this.toPast1Card();
+    await this.draw2CardsPower();
+  }
+
+  async exchangeCard() {
+    await this.draw1CardPower();
+    this.exchangeCardInProgress = true;
+    window.dispatchEvent(new Event('exchangeCard-event'));
+  }
+
   async toPast() {
     console.log("ADRIAN 1111");
     let bonusCandies = Math.min(this.sequenceRuleBonus(), max_candies - this.candies);
@@ -173,9 +187,23 @@ export class MainGameServiceService {
     await this.backToDrawStack();
     if (this.futureIndex <= 0) {
       await this.draw3Cards();
+      if (this.futureCards[0] != null) {
+        await this.fromFuture1();
+      }
     } else {
       await this.fromFutureAll();
     }
+  }
+
+  async fromFuture1() {
+    let lastFutureCards = this.futureCards[0] as Array<CardInfo>;
+
+    while (lastFutureCards.length > 0) {
+      this.presentCards.push(lastFutureCards.shift() as CardInfo);
+      await new Promise(resolve => setTimeout(resolve, timeout));
+    }
+    this.futureCards.pop();
+    window.dispatchEvent(new Event('updateFutureCards-event'));
   }
 
   async fromFutureAll() {
@@ -192,6 +220,7 @@ export class MainGameServiceService {
     this.futureCards.pop();
     window.dispatchEvent(new Event('updateFutureCards-event'));
     this.futureIndex--;
+    this.checkForSortedCards();
   }
 
 
@@ -207,7 +236,20 @@ export class MainGameServiceService {
     await new Promise(resolve => setTimeout(resolve, timeout));
   }
 
-
+  async backToDrawStack1Card(cardIndex: number) {
+    if (this.exchangeCardInProgress) {
+      let removedCard = this.presentCards.splice(cardIndex, 1);
+      window.dispatchEvent(new Event('drawCard-event'));
+      removedCard[0].cardAvailableActions = removedCard[0].cardNumberActions;
+      this.drawCards.unshift(removedCard[0]);
+      console.log("ADRIAN 6754545454545");
+      await new Promise(resolve => setTimeout(resolve, timeout));
+      
+      console.log("ADRIAN 878787878");
+      this.exchangeCardInProgress = false;
+      window.dispatchEvent(new Event('exchangeCard-event'));
+    }
+  }
 
   async backToDrawStack() {
     while (this.pastCards.length > 3) {
@@ -260,8 +302,17 @@ export class MainGameServiceService {
     await this.draw3Cards();
   }
 
-  toFuture1Card() {
+  async toFuture1Card() {
+    if (this.futureIndex <= 0) {
+      this.futureCards.push([]);
+      window.dispatchEvent(new Event('updateFutureCards-event'));
+      this.futureCards[0].push(this.presentCards.shift() as CardInfo);
+    } else {
+      this.futureCards[this.futureIndex - 1].push(this.presentCards.shift() as CardInfo);
+    }
 
+
+    await new Promise(resolve => setTimeout(resolve, timeout));
   }
 
   getDrawCards() {
@@ -290,6 +341,10 @@ export class MainGameServiceService {
 
   getCandies() {
     return this.candies;
+  }
+
+  isExchangeCardInProgress() {
+    return this.exchangeCardInProgress;
   }
 
   consumeCandy() {
@@ -388,10 +443,10 @@ export class MainGameServiceService {
         if (c.cardAvailableActions == c.cardNumberActions) {
           result = "../../../assets/cards/" + cardInfo.cardNumber + "_card.png";
         } else if (c.cardNumber == CardNumber.fortySeven) {
-          result = "../../../assets/cards/" + cardInfo.cardNumber + "_cardc_"+ (c.cardNumberActions - c.cardAvailableActions)+".png";
+          result = "../../../assets/cards/" + cardInfo.cardNumber + "_cardc_" + (c.cardNumberActions - c.cardAvailableActions) + ".png";
         } else {
           result = "../../../assets/cards/" + cardInfo.cardNumber + "_cardc.png";
-        } 
+        }
       } else {
         result = "../../../assets/cards/back_card.png";
       }
@@ -406,10 +461,10 @@ export class MainGameServiceService {
         if (c.cardAvailableActions == c.cardNumberActions) {
           result = "../../../assets/cards/" + cardInfo.cardNumber + "_card_small.png";
         } else if (c.cardNumber == CardNumber.fortySeven) {
-          result = "../../../assets/cards/" + cardInfo.cardNumber + "_cardc_"+ (c.cardNumberActions - c.cardAvailableActions)+"_small.png";
+          result = "../../../assets/cards/" + cardInfo.cardNumber + "_cardc_" + (c.cardNumberActions - c.cardAvailableActions) + "_small.png";
         } else {
           result = "../../../assets/cards/" + cardInfo.cardNumber + "_cardc_small.png";
-        } 
+        }
 
       } else {
         result = "../../../assets/cards/back_card_small.png";

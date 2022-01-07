@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { faLessThanEqual } from '@fortawesome/free-solid-svg-icons';
+import { MainGameServiceService } from 'src/app/services/main-game-service.service';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  public exchangeCardInProgress: boolean = false;
+
+  constructor(private service: MainGameServiceService) { }
 
   ngOnInit(): void {
   }
+
+  @HostListener('window:exchangeCard-event', ['$event'])
+  updateExchangeCardActionStatus(event: any) {
+    this.exchangeCardInProgress = this.service.isExchangeCardInProgress();
+    console.log("ADRIAN 443434343434");
+  }
+
+
 
 }

@@ -1,1 +1,5 @@
 
+.horizontal {
+    display: flex;
+    overflow: auto;
+}

@@ -1,6 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CardInfo } from 'src/app/model/CardInfo';
+
 import { MainGameServiceService as MainGameServiceService } from '../../services/main-game-service.service'
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-present',
@@ -11,6 +13,8 @@ export class PresentComponent implements OnInit {
   presentCards: Array<CardInfo>;
   cardSize: string = "normal";
   remainingCandies: number = 0;
+  modalName: bootstrap.Modal | undefined;
+
   constructor(private service: MainGameServiceService) {
     this.presentCards = service.getPresentCards();
     this.remainingCandies = service.getCandies();
@@ -28,6 +32,11 @@ export class PresentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  openModal(element: any){
+    this.modalName = new bootstrap.Modal(element,{} ) 
+    this.modalName?.show()
   }
 
 }

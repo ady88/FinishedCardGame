@@ -19,6 +19,7 @@ export class CardComponent implements OnInit {
   
   public imgUrl: string = "../../../assets/cards/back_card.png";
   public isPlayDisabled: boolean = true;
+  public exchangeCardInProgress: boolean = false;
 
 
   constructor(private service: MainGameServiceService) {
@@ -26,9 +27,14 @@ export class CardComponent implements OnInit {
 
   ngOnInit(): void {
     this.imgUrl = this.service.getImgUrl(this.cardInfo, this.cardSize);
+    this.exchangeCardInProgress = this.service.isExchangeCardInProgress();
     console.log(this.imgUrl);
   }
   
+  backToDrawStack() {
+    console.log("ADRIAN 212121212");
+    this.service.backToDrawStack1Card(this.cardIndex);
+  }
 
   moveLeft() {
     this.service.moveLeft(this.cardIndex);
@@ -71,6 +77,16 @@ export class CardComponent implements OnInit {
       case CardPower.resetCandies:
         this.service.resetCandies();
         break;
+      case CardPower.cardIntoFuture:
+        this.service.toFuture1Card();
+        break;
+      case CardPower.cardsIntoPast:
+        this.service.toPast2Cards();
+        break;
+      case CardPower.exchangeCard:
+        this.exchangeCardInProgress = true;
+        this.service.exchangeCard();
+        break;  
       default:
         console.log("something went wrong, no card available with the mentioned power.");
     }
@@ -79,5 +95,10 @@ export class CardComponent implements OnInit {
   @HostListener('window:updateCardImage-event', ['$event'])
   updateCandies(event: any) {
     this.imgUrl = this.service.getImgUrl(this.cardInfo, this.cardSize);
+  }
+
+  @HostListener('window:exchangeCard-event', ['$event'])
+  updateExchangeCardProgress(event: any) {
+    this.exchangeCardInProgress = this.service.isExchangeCardInProgress();
   }
 }

@@ -1,4 +1,6 @@
 .horizontal {
     display: flex;
     overflow: scroll;
+    justify-content: center;
 }
+

@@ -1,3 +1,26 @@
-<div class=" text-black  p-3 " style="flex-shrink: 0; "  *ngFor="let card of presentCards; let i = index; let presentSize = count">
-        <app-card [cardInfo]="card" cardSize="normal" [cardIndex]="i" [presentSize]="presentSize" [remainingCandies]="remainingCandies"></app-card>
+<div class=" text-black  p-1 " 
+        *ngFor="let card of presentCards; let i = index; let presentSize = count">
+        <app-card [cardInfo]="card" cardSize="normal" [cardIndex]="i" [presentSize]="presentSize"
+                [remainingCandies]="remainingCandies"></app-card>
 </div>
+
+<!-- <button class="btn btn-primary" (click)="openModal(modalName)">Add dish</button>
+
+<div class="modal" tabindex="-1" #modalName id="modalName">
+        <div class="modal-dialog">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h5 class="modal-title text-danger" id="exampleModalLabel">Please select one card</h5>
+                        </div>
+                        <div class="modal-body text-danger horizontal">
+                                <div class=" text-black  p-3"  *ngFor="let card of presentCards" >
+                                        <app-card [cardInfo]="card" cardSize="small"></app-card>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Done</button>
+                        </div>
+                </div>
+        </div>
+
+</div> -->

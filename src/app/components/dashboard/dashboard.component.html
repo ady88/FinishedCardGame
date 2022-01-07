@@ -1,15 +1,21 @@
-<div class="container-fluid">
+<div >
 
-    <div class="row flex-nowrap">
-        <div class="col-md-11 py-3">
+    <div >
+        <div class="py-3">
             <app-futures></app-futures>
-            <app-present class="horizontal justify-content-center"></app-present>
+            <app-present class="horizontal"></app-present>
+            <div  class=" d-flex justify-content-center" [ngClass]="{'d-none': exchangeCardInProgress == false}" >
+                Please select one card to be moved back to the draw stack!
+            </div>
             <app-past class="horizontal justify-content-center"></app-past>
+            
         </div>
         
-        <app-stats style="margin-top: 33%; width:auto; " class="col-md-1 "></app-stats>
-
+        
+        
     </div>
 
+  
 
 </div>
+<app-stats></app-stats>

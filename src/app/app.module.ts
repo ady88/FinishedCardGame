@@ -14,7 +14,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CardComponent } from './components/card/card.component';
 import {MainGameServiceService} from './services/main-game-service.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { OneSelectModalComponent } from './components/one-select-modal/one-select-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,8 +24,7 @@ import { OneSelectModalComponent } from './components/one-select-modal/one-selec
     PastComponent,
     StatsComponent,
     DashboardComponent,
-    CardComponent,
-    OneSelectModalComponent
+    CardComponent
   ],
   imports: [
     CommonModule,
