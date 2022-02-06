@@ -71,6 +71,9 @@ export class MainGameServiceService {
   public futureCards: Array<Array<CardInfo>>;
   public futureIndex: number;
   public exchangeCardInProgress: boolean;
+  public cardToFutureInProgress: boolean;
+  public cardsToPastInProgress: boolean;
+  public cardsToPastIntermediateInProgress: boolean;
   public candies: number;
   public cofees: number;
   public sortedCards: number;
@@ -93,6 +96,9 @@ export class MainGameServiceService {
     this.sortedCards = 0;
     this.futureIndex = 0;
     this.exchangeCardInProgress = false;
+    this.cardToFutureInProgress = false;
+    this.cardsToPastInProgress = false;
+    this.cardsToPastIntermediateInProgress = false;
   }
 
 
@@ -162,15 +168,25 @@ export class MainGameServiceService {
   }
 
   async toPast2Cards() {
-    await this.toPast1Card();
-    await this.toPast1Card();
-    await this.draw2CardsPower();
+    this.cardsToPastInProgress = true;
+
+    // await this.toPast1Card();
+    // await this.toPast1Card();
+    // await this.draw2CardsPower();
+    window.dispatchEvent(new Event('cardsToPast-event'));
   }
 
   async exchangeCard() {
     await this.draw1CardPower();
     this.exchangeCardInProgress = true;
     window.dispatchEvent(new Event('exchangeCard-event'));
+  }
+
+  async cardToFuture() {
+    console.log("ADRIAN 5555");
+    
+    this.cardToFutureInProgress = true;
+    window.dispatchEvent(new Event('cardToFuture-event'));
   }
 
   async toPast() {
@@ -251,6 +267,26 @@ export class MainGameServiceService {
     }
   }
 
+  async toPast1CardAction(cardIndex: number) {
+    if (this.cardsToPastInProgress == true) {
+      let removedCard = this.presentCards.splice(cardIndex, 1);
+      window.dispatchEvent(new Event('drawCard-event'));
+      removedCard[0].cardAvailableActions = removedCard[0].cardNumberActions;
+      this.pastCards.push(removedCard[0]);
+      
+      console.log("ADRIAN 6754545454545");
+      await new Promise(resolve => setTimeout(resolve, timeout));
+      this.cardsToPastIntermediateInProgress = !this.cardsToPastIntermediateInProgress;
+      console.log("ADRIAN 878787878");
+      if (this.cardsToPastIntermediateInProgress == false) {
+        this.cardsToPastInProgress = false;
+        await this.draw2CardsPower();
+      }
+      
+      window.dispatchEvent(new Event('cardsToPast-event'));
+    }
+  }
+
   async backToDrawStack() {
     while (this.pastCards.length > 3) {
       this.drawCards.push(this.pastCards.shift() as CardInfo);
@@ -302,17 +338,26 @@ export class MainGameServiceService {
     await this.draw3Cards();
   }
 
-  async toFuture1Card() {
-    if (this.futureIndex <= 0) {
-      this.futureCards.push([]);
-      window.dispatchEvent(new Event('updateFutureCards-event'));
-      this.futureCards[0].push(this.presentCards.shift() as CardInfo);
-    } else {
-      this.futureCards[this.futureIndex - 1].push(this.presentCards.shift() as CardInfo);
+  async toFuture1Card(cardIndex: number) {
+    if (this.cardToFutureInProgress) {
+      let removedCard = this.presentCards.splice(cardIndex, 1);
+      window.dispatchEvent(new Event('drawCard-event'));
+      
+      if (this.futureIndex <= 0) {
+        this.futureCards.push([]);
+        window.dispatchEvent(new Event('updateFutureCards-event'));
+        this.futureCards[0].push(removedCard[0]);
+      } else {
+        this.futureCards[this.futureIndex - 1].push(removedCard[0]);
+      }
+
+      console.log("ADRIAN 6754545454545");
+      await new Promise(resolve => setTimeout(resolve, timeout));
+
+      console.log("ADRIAN 878787878");
+      this.cardToFutureInProgress = false;
+      window.dispatchEvent(new Event('cardToFuture-event'));
     }
-
-
-    await new Promise(resolve => setTimeout(resolve, timeout));
   }
 
   getDrawCards() {
@@ -345,6 +390,14 @@ export class MainGameServiceService {
 
   isExchangeCardInProgress() {
     return this.exchangeCardInProgress;
+  }
+
+  isCardToFutureInProgress() {
+    return this.cardToFutureInProgress;
+  }
+
+  isCardsToPastInProgress() {
+    return this.cardsToPastInProgress;
   }
 
   consumeCandy() {

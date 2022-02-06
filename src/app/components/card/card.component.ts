@@ -20,6 +20,8 @@ export class CardComponent implements OnInit {
   public imgUrl: string = "../../../assets/cards/back_card.png";
   public isPlayDisabled: boolean = true;
   public exchangeCardInProgress: boolean = false;
+  public cardToFutureInProgress: boolean = false;
+  public cardsToPastInProgress: boolean = false;
 
 
   constructor(private service: MainGameServiceService) {
@@ -28,12 +30,26 @@ export class CardComponent implements OnInit {
   ngOnInit(): void {
     this.imgUrl = this.service.getImgUrl(this.cardInfo, this.cardSize);
     this.exchangeCardInProgress = this.service.isExchangeCardInProgress();
+    this.cardToFutureInProgress = this.service.isCardToFutureInProgress();
+    this.cardsToPastInProgress = this.service.isCardsToPastInProgress();
     console.log(this.imgUrl);
   }
-  
-  backToDrawStack() {
-    console.log("ADRIAN 212121212");
-    this.service.backToDrawStack1Card(this.cardIndex);
+
+  /**
+   * Action to be executed when user clicks on a card. There are only 3 types of possible actions: exchangeCard, cardToFuture and 2CardsInThePast
+   */
+  executeSpecialCardAction() {
+    console.log("ADRIAN 22121211111111111111");
+    console.log(this.cardToFutureInProgress); 
+    if (this.exchangeCardInProgress == true) {
+      console.log("ADRIAN 212121212");
+      this.service.backToDrawStack1Card(this.cardIndex);
+    } else if (this.cardToFutureInProgress == true) {
+      console.log("ADRIAN 333333333");
+      this.service.toFuture1Card(this.cardIndex);
+    } else if (this.cardsToPastInProgress == true) {
+      this.service.toPast1CardAction(this.cardIndex);
+    }
   }
 
   moveLeft() {
@@ -78,7 +94,8 @@ export class CardComponent implements OnInit {
         this.service.resetCandies();
         break;
       case CardPower.cardIntoFuture:
-        this.service.toFuture1Card();
+        this.cardToFutureInProgress = true;
+        this.service.cardToFuture();
         break;
       case CardPower.cardsIntoPast:
         this.service.toPast2Cards();
@@ -100,5 +117,16 @@ export class CardComponent implements OnInit {
   @HostListener('window:exchangeCard-event', ['$event'])
   updateExchangeCardProgress(event: any) {
     this.exchangeCardInProgress = this.service.isExchangeCardInProgress();
+  }
+
+  @HostListener('window:cardToFuture-event', ['$event'])
+  updateCardToFutureProgress(event: any) {
+    this.cardToFutureInProgress = this.service.isCardToFutureInProgress();
+  }
+
+
+  @HostListener('window:cardsToPast-event', ['$event'])
+  updateCardsToPastProgress(event: any) {
+    this.cardsToPastInProgress = this.service.isCardsToPastInProgress();
   }
 }

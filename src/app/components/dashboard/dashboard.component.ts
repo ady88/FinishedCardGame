@@ -12,6 +12,10 @@ export class DashboardComponent implements OnInit {
 
   public exchangeCardInProgress: boolean = false;
 
+  public cardToFutureInProgress: boolean = false;
+  
+  public cardsToPastInProgress: boolean = false;
+
   constructor(private service: MainGameServiceService) { }
 
   ngOnInit(): void {
@@ -23,6 +27,17 @@ export class DashboardComponent implements OnInit {
     console.log("ADRIAN 443434343434");
   }
 
+  @HostListener('window:cardToFuture-event', ['$event'])
+  updateCardToFutureActionStatus(event: any) {
+    this.cardToFutureInProgress = this.service.isCardToFutureInProgress();
+    console.log("ADRIAN 2222222222222222");
+    console.log(this.cardToFutureInProgress);
+  }
 
-
+  @HostListener('window:cardsToPast-event', ['$event'])
+  updateCardsToPastActionStatus(event: any) {
+    this.cardsToPastInProgress = this.service.isCardsToPastInProgress();
+    console.log("ADRIAN 2222222222222222");
+    console.log(this.cardsToPastInProgress);
+  }
 }

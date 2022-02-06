@@ -4,3 +4,11 @@
     justify-content: center;
 }
 
+#bg{      
+    height: 100vh;
+    width: 100vw;
+    background: url('../../../assets/backgroud/1.png') no-repeat;
+    background-color: #bdd5d9ff;
+    background-size: contain;
+    background-position: center; 
+  }
