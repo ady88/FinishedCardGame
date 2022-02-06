@@ -16,6 +16,8 @@ export class DashboardComponent implements OnInit {
   
   public cardsToPastInProgress: boolean = false;
 
+  public backgroundImage: string = "url(../../../assets/backgroud/0.png) ";
+
   constructor(private service: MainGameServiceService) { }
 
   ngOnInit(): void {
@@ -39,5 +41,14 @@ export class DashboardComponent implements OnInit {
     this.cardsToPastInProgress = this.service.isCardsToPastInProgress();
     console.log("ADRIAN 2222222222222222");
     console.log(this.cardsToPastInProgress);
+  }
+
+  getBackgroundImageUrl() {
+    this.backgroundImage = this.service.getBackgroundImageUrl();
+  }
+
+  @HostListener('window:updateBackgroundImage-event', ['$event'])
+  updateBackgroundImage(event: any) {
+    this.backgroundImage = this.service.getBackgroundImageUrl();
   }
 }

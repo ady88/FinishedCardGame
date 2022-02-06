@@ -184,7 +184,7 @@ export class MainGameServiceService {
 
   async cardToFuture() {
     console.log("ADRIAN 5555");
-    
+
     this.cardToFutureInProgress = true;
     window.dispatchEvent(new Event('cardToFuture-event'));
   }
@@ -260,7 +260,7 @@ export class MainGameServiceService {
       this.drawCards.unshift(removedCard[0]);
       console.log("ADRIAN 6754545454545");
       await new Promise(resolve => setTimeout(resolve, timeout));
-      
+
       console.log("ADRIAN 878787878");
       this.exchangeCardInProgress = false;
       window.dispatchEvent(new Event('exchangeCard-event'));
@@ -273,7 +273,7 @@ export class MainGameServiceService {
       window.dispatchEvent(new Event('drawCard-event'));
       removedCard[0].cardAvailableActions = removedCard[0].cardNumberActions;
       this.pastCards.push(removedCard[0]);
-      
+
       console.log("ADRIAN 6754545454545");
       await new Promise(resolve => setTimeout(resolve, timeout));
       this.cardsToPastIntermediateInProgress = !this.cardsToPastIntermediateInProgress;
@@ -282,7 +282,7 @@ export class MainGameServiceService {
         this.cardsToPastInProgress = false;
         await this.draw2CardsPower();
       }
-      
+
       window.dispatchEvent(new Event('cardsToPast-event'));
     }
   }
@@ -322,6 +322,7 @@ export class MainGameServiceService {
 
   addSortedCard() {
     this.sortedCards++;
+    window.dispatchEvent(new Event('updateBackgroundImage-event'));
   }
 
 
@@ -342,7 +343,7 @@ export class MainGameServiceService {
     if (this.cardToFutureInProgress) {
       let removedCard = this.presentCards.splice(cardIndex, 1);
       window.dispatchEvent(new Event('drawCard-event'));
-      
+
       if (this.futureIndex <= 0) {
         this.futureCards.push([]);
         window.dispatchEvent(new Event('updateFutureCards-event'));
@@ -524,6 +525,12 @@ export class MainGameServiceService {
       }
     }
     return result;
+  }
+
+  getBackgroundImageUrl() {
+    
+      return "url(../../../assets/backgroud/" + this.sortedCards + ".png";
+    
   }
 
 }
