@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CardInfo } from 'src/app/model/CardInfo';
 import { MainGameServiceService } from 'src/app/services/main-game-service.service';
-import { faPlay, faStopwatch } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faStopwatch, faRedo } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-stats',
@@ -15,7 +15,9 @@ export class StatsComponent implements OnInit {
   cofees: number = 0;
   sortedCards: number = 0;
   gameIsStarted: boolean = false;
+  gameIsFinished: boolean = false;
   faPlay = faPlay;
+  faRedo = faRedo;
   faStopWatch = faStopwatch;
   
   constructor(private service: MainGameServiceService) {
@@ -38,6 +40,12 @@ export class StatsComponent implements OnInit {
     this.cofees = this.service.getCofees();
   }
 
+  @HostListener('window:updatedGameFinished-event', ['$event']) 
+  updateGameFinished(event:any) {
+    this.gameIsFinished = true;
+    console.log("isDone");
+  }
+
   @HostListener('window:updateCandies-event', ['$event']) 
   updateCandies(event:any) {
     console.log("ADRIAN from event");
@@ -55,6 +63,10 @@ export class StatsComponent implements OnInit {
 
   toFutureAll() {
     this.service.toFutureAll();
+  }
+
+  restart() {
+    window.location.reload();
   }
 
   modelChangeFn(e:number) {

@@ -86,7 +86,7 @@ export class MainGameServiceService {
       cardInfo31, cardInfo32, cardInfo33, cardInfo34, cardInfo35, cardInfo36, cardInfo37, cardInfo38, cardInfo39, cardInfo40,
       cardInfo41, cardInfo42, cardInfo43, cardInfo44, cardInfo45, cardInfo46, cardInfo47];
 
-    // this.shuffle(this.drawCards);
+    this.shuffle(this.drawCards);
     this.drawCards.push(cardInfo48);
     this.presentCards = [];
     this.pastCards = [];
@@ -163,6 +163,10 @@ export class MainGameServiceService {
       window.dispatchEvent(new Event('updatedSortedCards-event'));
       if (this.drawCards.length > 0 || this.pastCards.length > 0) {
         await this.draw1Card();
+      } else if (this.sortedCards == 48) {
+        console.log("ADRIAN DONE");
+        console.log();
+        window.dispatchEvent(new Event('updateBackgroundImage-event'));
       }
     }
   }
@@ -322,8 +326,7 @@ export class MainGameServiceService {
 
   async addSortedCard() {
     this.sortedCards++;
-    window.dispatchEvent(new Event('updateBackgroundImage-event'));
-    // await new Promise(resolve => setTimeout(resolve, 2));
+    
   }
 
 

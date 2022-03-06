@@ -1,25 +1,16 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { faLessThanEqual } from '@fortawesome/free-solid-svg-icons';
-import { trigger, transition, style, animate, state } from '@angular/animations';
 import { MainGameServiceService } from 'src/app/services/main-game-service.service';
 
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
-  animations: [
-    trigger('fadeIn', [
-      state('ease-in', style({ 'opacity': '1' })),
-      state('ease-out', style({ 'opacity': '0.25' })),
-      transition('* => *', [
-        animate("0.03s")
-      ])
-    ])
-  ]
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
 
+  
   public exchangeCardInProgress: boolean = false;
 
   public cardToFutureInProgress: boolean = false;
@@ -58,38 +49,25 @@ export class DashboardComponent implements OnInit {
     console.log(this.cardsToPastInProgress);
   }
 
-  getBackgroundImageUrl() {
-    this.backgroundImage = this.service.getBackgroundImageUrl();
+  getBackgroundImageUrl(i: number) {
+    this.backgroundImage = "url(../../../assets/backgroud/"+ i + ".png)";
   }
 
   @HostListener('window:updateBackgroundImage-event', ['$event'])
   updateBackgroundImage(event: any) {
-    // this.backgroundImage = this.service.getBackgroundImageUrl();
-    this.runAnimation();
+    this.updateImage();
   }
 
-  runAnimation() {
-    this.enableAnimation = true;
-    this.counter = 0;
-    this.toggleState();
-  }
+  async updateImage() {
 
-  onDone($event: any) {
-    if (this.enableAnimation) {
-      if (this.counter === 1) {
-        var sortedCards = this.service.getSortedCards() + 1;
-        this.backgroundImage1 ="url(../../../assets/backgroud/"+ sortedCards + ".png)";
-
-         this.getBackgroundImageUrl();
+    for (let i = 0; i <= this.service.getSortedCards(); i++) {
+      console.log ("Block statement execution no." + i);
+      if (i != 48) {
+        this.backgroundImage1 ="url(../../../assets/backgroud/"+ (i + 1) + ".png)";
       }
-      this.toggleState();
+      this.getBackgroundImageUrl(i);
+      await new Promise(resolve => setTimeout(resolve, 250));
     }
-  }
-
-  toggleState() {
-    if (this.counter < 2) {
-      this.state = this.state === 'in' ? 'out' : 'in';
-      this.counter++;
-    }
+    window.dispatchEvent(new Event('updatedGameFinished-event'));
   }
 }
