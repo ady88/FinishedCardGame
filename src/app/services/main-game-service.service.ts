@@ -58,7 +58,7 @@ let cardInfo46 = new CardInfo(CardNumber.fortySix, CardPower.drawOne, CardNumber
 let cardInfo47 = new CardInfo(CardNumber.fortySeven, CardPower.drawOne, CardNumberActions.three, CardSide.Front);
 let cardInfo48 = new CardInfo(CardNumber.fortyEight, CardPower.drinkCofee, CardNumberActions.zero, CardSide.Front);
 
-const timeout: number = 200;
+const timeout: number = 250;
 const max_candies: number = 10;
 
 @Injectable({
@@ -86,7 +86,7 @@ export class MainGameServiceService {
       cardInfo31, cardInfo32, cardInfo33, cardInfo34, cardInfo35, cardInfo36, cardInfo37, cardInfo38, cardInfo39, cardInfo40,
       cardInfo41, cardInfo42, cardInfo43, cardInfo44, cardInfo45, cardInfo46, cardInfo47];
 
-    this.shuffle(this.drawCards);
+    // this.shuffle(this.drawCards);
     this.drawCards.push(cardInfo48);
     this.presentCards = [];
     this.pastCards = [];
@@ -158,7 +158,7 @@ export class MainGameServiceService {
 
       this.presentCards.splice(index, 1);
       await new Promise(resolve => setTimeout(resolve, timeout));
-      this.addSortedCard();
+      await this.addSortedCard();
 
       window.dispatchEvent(new Event('updatedSortedCards-event'));
       if (this.drawCards.length > 0 || this.pastCards.length > 0) {
@@ -259,7 +259,7 @@ export class MainGameServiceService {
       removedCard[0].cardAvailableActions = removedCard[0].cardNumberActions;
       this.drawCards.unshift(removedCard[0]);
       console.log("ADRIAN 6754545454545");
-      await new Promise(resolve => setTimeout(resolve, timeout));
+      // await new Promise(resolve => setTimeout(resolve, timeout));
 
       console.log("ADRIAN 878787878");
       this.exchangeCardInProgress = false;
@@ -320,9 +320,10 @@ export class MainGameServiceService {
     await new Promise(resolve => setTimeout(resolve, timeout));
   }
 
-  addSortedCard() {
+  async addSortedCard() {
     this.sortedCards++;
     window.dispatchEvent(new Event('updateBackgroundImage-event'));
+    // await new Promise(resolve => setTimeout(resolve, 2));
   }
 
 

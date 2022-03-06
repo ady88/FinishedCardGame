@@ -1,6 +1,17 @@
-<div id="bg" [ngStyle]="{'background-image': backgroundImage}">
+<div id="bg" [@fadeIn]="state" (@fadeIn.done)="onDone($event)"
+          [ngStyle]="{'background-image': backgroundImage}">
+           
+      </div>
 
-    <div >
+<div>
+
+    <div id="bg1" [ngStyle]="{'background-image': backgroundImage1}">
+           
+      </div>
+
+<div>
+
+    <div>
         <div class="py-3">
             <app-futures></app-futures>
             <app-present [ngClass]="{'border border-warning border-4': exchangeCardInProgress == true || cardToFutureInProgress == true || cardsToPastInProgress == true}" class="horizontal"></app-present>
