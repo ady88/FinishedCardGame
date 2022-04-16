@@ -17,6 +17,9 @@ export class DashboardComponent implements OnInit {
 
   public cardsToPastInProgress: boolean = false;
 
+  public gameInProgress: boolean = true;
+
+
   public backgroundImage: string = "url(../../../assets/backgroud/0.png)";
   public backgroundImage1: string = "url(../../../assets/backgroud/0.png)";
 
@@ -68,6 +71,8 @@ export class DashboardComponent implements OnInit {
       this.getBackgroundImageUrl(i);
       await new Promise(resolve => setTimeout(resolve, 250));
     }
+
+    this.gameInProgress = false;
     window.dispatchEvent(new Event('updatedGameFinished-event'));
   }
 }

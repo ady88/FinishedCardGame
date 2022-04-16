@@ -86,7 +86,7 @@ export class MainGameServiceService {
       cardInfo31, cardInfo32, cardInfo33, cardInfo34, cardInfo35, cardInfo36, cardInfo37, cardInfo38, cardInfo39, cardInfo40,
       cardInfo41, cardInfo42, cardInfo43, cardInfo44, cardInfo45, cardInfo46, cardInfo47];
 
-    this.shuffle(this.drawCards);
+    // this.shuffle(this.drawCards);
     this.drawCards.push(cardInfo48);
     this.presentCards = [];
     this.pastCards = [];

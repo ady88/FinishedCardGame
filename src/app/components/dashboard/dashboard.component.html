@@ -21,6 +21,9 @@
             <div  class=" d-flex justify-content-center" [ngClass]="{'d-none': cardToFutureInProgress == false}" >
                 <h2 class="p-3 mb-2 bg-warning ">Please select one card to be moved to the future!</h2>
             </div>
+            <div  class=" d-flex justify-content-center" [ngClass]="{'d-none': gameInProgress == true}" >
+                <h1 class="p-3 mb-2 text-success ">Victory!</h1>
+            </div>
             <div  class=" d-flex justify-content-center" [ngClass]="{'d-none': cardsToPastInProgress == false}" >
                 <h2 class="p-3 mb-2 bg-warning ">Please select two cards to be moved to the past!</h2>
             </div>
